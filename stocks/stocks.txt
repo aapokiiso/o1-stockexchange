@@ -1,0 +1,138 @@
+1901;Neste
+1196;Afarak Group
+1924;Ahlstrom
+2012;Endomines (LP)
+1025;Kemira
+1074;Metsä Board A
+1054;Metsä Board B
+2014;Munksjö
+1129;Outokumpu
+2001;Sotkamo Silver
+2030;SSAB A
+2031;SSAB B
+1052;Stora Enso A
+1036;Stora Enso R
+1964;Talvivaara
+1135;UPM-Kymmene
+1109;Aspo (LP)
+1035;Aspocomp Group
+1906;Cargotec
+2015;Caverion
+1081;Componenta
+2057;Consti Yhtiöt
+1102;Cramo
+1203;Dovre Group
+1174;Efore
+1189;Elecster A
+1200;Etteplan (LP)
+1051;Exel Composites
+1068;Glaston
+1120;Huhtamäki
+1167;Incap
+1194;Kesla A
+1907;Kone
+1098;Konecranes
+1080;Lassila &amp; Tikanoja
+2065;Lehto Group
+1016;Lemminkäinen
+1031;Metso
+1171;Neo Industrial
+1190;Nurminen Logistics
+1934;Outotec
+1041;PKC Group
+1046;Ponsse
+1023;Pöyry
+1070;Ramirent
+1011;Raute A (LP)
+1996;Scanfil
+1946;SRV Yhtiöt
+1184;Takoma
+1981;Tikkurila
+1156;Tulikivi A
+1040;Uponor
+1186;Uutechnic Group (LP)
+1043;Vaisala A
+2020;Valmet
+1038;Valoe
+1144;Wulff-Yhtiöt
+1059;Wärtsilä
+1119;YIT
+1173;Yleiselektroniikka E
+1017;Amer Sports A
+1066;Apetit (LP)
+1158;Atria A
+1003;Fiskars
+1021;HKScan A
+1181;Honkarakenne B (LP)
+1142;Marimekko
+1166;Martela A (LP)
+1088;Nokian Renkaat
+1141;Olvi A
+1000;Raisio V
+1122;Rapala VMC
+1161;Saga Furs C
+1154;Suominen
+1201;Biohit B
+1932;Oriola-KD A
+1933;Oriola-KD B
+1930;Orion A
+1931;Orion B
+2047;Pihlajalinna
+1208;Revenio Group
+1902;Alma Media
+1112;Finnair
+1110;Ilkka-Yhtymä II
+1113;Keskisuomalainen A
+1027;Kesko A
+1028;Kesko B
+2051;Kotipizza Group (LP)
+1193;Pohjois-Karjalan Kirjapaino (LP)
+2017;Restamax
+1091;Sanoma
+1058;Stockmann A
+1056;Stockmann B
+2066;Tokmanni Group
+1004;Viking Line
+1143;Elisa
+1029;Telia Company
+1032;Fortum
+1970;Aktia Pankki A
+1971;Aktia Pankki R
+2044;Asiakastieto Group
+1069;CapMan B
+1111;Citycon
+1211;eQ
+2056;Evli Pankki
+1169;Investors House (LP)
+1083;Nordea Bank
+1114;Norvestia
+2016;Orava Asuntorahasto (LP)
+2061;Orava Asuntorahasto uudet
+1178;Panostaja
+1089;Sampo A
+1121;Sievi Capital
+1006;Sponda
+2011;Taaleri
+1140;Technopolis
+1104;Ålandsbanken A
+1105;Ålandsbanken B
+1905;Affecto (LP)
+1198;Basware
+1117;Bittium
+1039;Comptel
+1076;Digia
+1049;F-Secure
+1042;Innofactor (LP)
+1197;Ixonos
+1050;Nokia
+2060;Nokia uudet 2016
+1213;QPR Software
+2067;Qt Group
+2006;Siili Solutions (LP)
+1202;Solteq
+1228;Soprano (LP)
+1065;SSH Comm. Security
+1087;Tecnotree
+1030;Teleste
+1033;Tieto
+1205;Trainers' House (LP)
