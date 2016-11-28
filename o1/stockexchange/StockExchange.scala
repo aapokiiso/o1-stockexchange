@@ -7,19 +7,19 @@ import scala.collection.immutable.{Map => ImmutableMap}
 class StockExchange {
   
   private val stockLoader = new StockLoader(StockExchange.StocksPath)
-  private val stocksList: ImmutableMap[Int, String] = this.stockLoader.stocksList(StockExchange.StocksListFile)
+  private val stocksList: ImmutableMap[Int, ImmutableMap[String, String]] = this.stockLoader.stocksList(StockExchange.StocksListFile)
   private val companies: ImmutableMap[Int, Company] = this.companiesFromStocks(this.stocksList)
   private val quarters: Vector[Quarter] = this.quartersFromStocks(this.stocksList)
   
-  private def companiesFromStocks(stocksList: Map[Int, String]): ImmutableMap[Int, Company] = {
-    stocksList.map((s) => s._1 -> new Company(s._1, s._2))
+  private def companiesFromStocks(stocksList: ImmutableMap[Int, ImmutableMap[String, String]]): ImmutableMap[Int, Company] = {
+    stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
   }
   
-  private def quartersFromStocks(stocksList: Map[Int, String]): Vector[Quarter] = {
+  private def quartersFromStocks(stocksList: ImmutableMap[Int, ImmutableMap[String, String]]): Vector[Quarter] = {
     val quartersData = MutableMap[String, Buffer[QuarterStock]]()
     
     // Combined quarters data from all stocks.
-    for ((stockId, companyName) <- this.stocksList) {
+    for (stockId <- this.stocksList.keys) {
       val stockQuarters = this.stockLoader.stockQuarters(stockId + ".txt")
       
       for ((quarterName, averagePrice) <- stockQuarters) {

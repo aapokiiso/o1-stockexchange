@@ -8,7 +8,7 @@ class StockLoader(val stocksPath: String) {
   /**
    * Returns map of stock IDs and company names.
    * 
-   * Map format: stock ID -> Company name
+   * Map format: stock ID -> Company data (ticker, name)
    * 
    * Stock ID is nothing else but a numeric ID
    * used by Kauppalehti to identify stocks.
@@ -17,15 +17,18 @@ class StockLoader(val stocksPath: String) {
    * @param stocksFile - path to file to load stock data from,
    * 										 relative to the stock loader's base path.
    */
-  def stocksList(stocksFile: String): Map[Int, String] = {
+  def stocksList(stocksFile: String): Map[Int, Map[String, String]] = {
     val filePath = this.stocksPath + StockLoader.DirSeparator + stocksFile
     val stocksSource = Source.fromFile(filePath)
     
     try {
       val stocks = stocksSource.getLines().map((line) => {
         val stockId = this.stockListValue(line, "id").toInt
-        val companyName = this.stockListValue(line, "name")
-        stockId -> companyName
+        val companyData = Map(
+            "ticker" -> this.stockListValue(line, "ticker"), 
+            "name" -> this.stockListValue(line, "name")
+            )
+        stockId -> companyData
       })
     
       stocks.toMap
@@ -116,7 +119,7 @@ object StockLoader {
   val DirSeparator = "/"
   val CsvSeparator = ";"
   
-  val StockListColumns = Vector("id", "name")
+  val StockListColumns = Vector("id", "ticker", "name")
   val StockListColumnIndices = (StockListColumns.zip(StockListColumns.indices)).toMap
   
   val StockColumns = Vector("date", "open", "high", "low", "close", "volume")
