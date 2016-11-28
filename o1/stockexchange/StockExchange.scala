@@ -47,7 +47,7 @@ class StockExchange {
 
 object StockExchange {
   
-  val StocksPath = "stocks"
+  val StocksPath = "resources/stocks"
   val StocksListFile = "index.txt"
   
 }
