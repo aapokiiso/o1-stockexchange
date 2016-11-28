@@ -4,7 +4,7 @@ const request = require('request');
 const baseUrl = "http://www.kauppalehti.fi";
 
 const loadStocks = new Promise((resolve, reject) => {
-    fs.readFile(__dirname + '/stocks/stocks.txt', (err, data) => {
+    fs.readFile(__dirname + '/stocks/index.txt', (err, data) => {
         return err ? reject(err) : resolve(data.toString());
     });
 });
