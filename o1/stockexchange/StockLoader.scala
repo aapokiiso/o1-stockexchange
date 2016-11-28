@@ -12,7 +12,7 @@ class StockLoader(val stocksPath: String) {
    * 
    * Stock ID is nothing else but a numeric ID
    * used by Kauppalehti to identify stocks.
-   * See "scrape-stocks.js" in this project's root for details.
+   * See "scrape-stocks.js" in this project resources for details.
    * 
    * @param stocksFile - path to file to load stock data from,
    * 										 relative to the stock loader's base path.

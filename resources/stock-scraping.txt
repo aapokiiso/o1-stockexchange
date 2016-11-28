@@ -1,0 +1,41 @@
+Osakkeet listaus:
+
+http://www.kauppalehti.fi/5/i/porssi/porssikurssit/lista.jsp?reverse=false&order=alpha&markets=XHEL&volume=cur&psize=50&listIds=kaikki&rdc=158aca37a9e&gics=0&refresh=60&currency=euro
+
+=============================
+
+var linkElements = document.getElementById('kurssit').querySelectorAll('a')
+
+var linkPath = "/5/i/porssi/porssikurssit/osake/index.jsp?klid=";
+var stocks = "";
+for (var i = 0; i < linkElements.length; i++) {
+    var linkHref = linkElements[i].href;
+    var stockNum = linkHref.substr(linkHref.indexOf(linkPath) + linkPath.length);
+
+    if (!isNaN(stockNum)) {
+        var stockName = linkElements[i].innerHTML;
+        stocks += stockNum + ';' + stockName + "\n";
+    }
+}
+
+=============================
+
+Osakkeiden ticker-symbolien lataus
+
+=============================
+
+function loadStock(klid) {
+var xhr = new XMLHttpRequest();
+xhr.open("POST", "http://www.kauppalehti.fi/5/i/porssi/porssikurssit/osake/index.jsp?klid=" + klid)
+xhr.onreadystatechange = function(){
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        var html = xhr.responseText;
+        console.log(html.substring(html.indexOf("<h1>") + 4, html.indexOf("</h1>", html.indexOf("<h1>"))))
+    }
+}
+xhr.send("http://www.kauppalehti.fi/5/i/porssi/porssikurssit/osake/index.jsp?klid=1906");
+}
+
+var ids = <OSAKKEIDEN IDt comma-sep. stringina>
+
+ids.split(",").forEach(function(id) {loadStock(id)})
