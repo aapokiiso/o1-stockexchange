@@ -1,8 +1,7 @@
 package o1.stockexchange
 
 import scala.io.Source
-import scala.collection.mutable.{Map => MutableMap}
-import scala.collection.immutable.{Map => ImmutableMap}
+import scala.collection.immutable.Map
 
 class StockLoader(val stocksPath: String) {
   
@@ -18,23 +17,21 @@ class StockLoader(val stocksPath: String) {
    * @param stocksFile - path to file to load stock data from,
    * 										 relative to the stock loader's base path.
    */
-  def stocksList(stocksFile: String): MutableMap[Int, String] = {
+  def stocksList(stocksFile: String): Map[Int, String] = {
     val filePath = this.stocksPath + StockLoader.DirSeparator + stocksFile
     val stocksSource = Source.fromFile(filePath)
-    val stocks = MutableMap[Int, String]()
     
     try {
-      for (line <- stocksSource.getLines()) {
-        val lineParts = line.split(StockLoader.CsvSeparator)
+      val stocks = stocksSource.getLines().map((line) => {
         val stockId = this.stockListValue(line, "id").toInt
         val companyName = this.stockListValue(line, "name")
-        stocks(stockId) = companyName
-      }
+        stockId -> companyName
+      })
+    
+      stocks.toMap
     } finally {
       stocksSource.close()
     }
-    
-    stocks
   }
   
   /**
@@ -48,10 +45,9 @@ class StockLoader(val stocksPath: String) {
    * @param stockFile - path to file to load stock data from,
    * 										relative to the stock loader's base path.
    */
-  def stockQuarters(stockFile: String): MutableMap[String, Double] = {
+  def stockQuarters(stockFile: String): Map[String, Double] = {
     val filePath = this.stocksPath + StockLoader.DirSeparator + stockFile
     val stockSource = Source.fromFile(filePath)
-    val stockQuarters = MutableMap[String, Double]()
     
     try {
       // Skip first line (CSV header line)
@@ -59,19 +55,18 @@ class StockLoader(val stocksPath: String) {
       
       val stockDaysInQuarters = this.groupStockDaysInQuarters(stockDayLines)
       
-      // Add quarters to map with average price.
-      for (stockQuarter <- stockDaysInQuarters) {
+      val stockQuarters = stockDaysInQuarters.map((stockQuarter) => {
         val quarterName = stockQuarter._1
         val quarterDayLines = stockQuarter._2
         val quarterAveragePrice = this.stockDaysAveragePrice(quarterDayLines)
         
-        stockQuarters(quarterName) = quarterAveragePrice
-      }
+        quarterName -> quarterAveragePrice
+      })
+    
+      stockQuarters
     } finally {
       stockSource.close()
     }
-    
-    stockQuarters
   }
   
   private def groupStockDaysInQuarters(stockDayLines: Vector[String]) = {
@@ -94,7 +89,7 @@ class StockLoader(val stocksPath: String) {
     val month = cal.get(java.util.Calendar.MONTH)
     val year = cal.get(java.util.Calendar.YEAR)
     
-    this.monthQuarter(month) + "/" + year
+    Quarter.name(this.monthQuarter(month), year)
   }
   
   private def monthQuarter(month: Int) = (month / 3) + 1
@@ -112,7 +107,7 @@ class StockLoader(val stocksPath: String) {
   
   private def stockValue(line: String, columnName: String) = this.csvValue(line, columnName, StockLoader.StockColumnIndices)
   
-  private def csvValue(line: String, columnName: String, columnsList: ImmutableMap[String, Int]) = line.split(StockLoader.CsvSeparator)(columnsList(columnName))
+  private def csvValue(line: String, columnName: String, columnsList: Map[String, Int]) = line.split(StockLoader.CsvSeparator)(columnsList(columnName))
   
 }
 
