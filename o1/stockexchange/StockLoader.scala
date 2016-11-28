@@ -18,7 +18,7 @@ class StockLoader(val stocksPath: String) {
    * @param stocksFile - path to file to load stock data from,
    * 										 relative to the stock loader's base path.
    */
-  def stocksFromFile(stocksFile: String): MutableMap[Int, String] = {
+  def stocksList(stocksFile: String): MutableMap[Int, String] = {
     val filePath = this.stocksPath + StockLoader.DirSeparator + stocksFile
     val stocksSource = Source.fromFile(filePath)
     val stocks = MutableMap[Int, String]()
@@ -27,8 +27,8 @@ class StockLoader(val stocksPath: String) {
       for (line <- stocksSource.getLines()) {
         val lineParts = line.split(StockLoader.CsvSeparator)
         val stockId = this.stockListValue(line, "id").toInt
-        val stockName = this.stockListValue(line, "name")
-        stocks(stockId) = stockName
+        val companyName = this.stockListValue(line, "name")
+        stocks(stockId) = companyName
       }
     } finally {
       stocksSource.close()
@@ -48,7 +48,7 @@ class StockLoader(val stocksPath: String) {
    * @param stockFile - path to file to load stock data from,
    * 										relative to the stock loader's base path.
    */
-  def stockFromFile(stockFile: String): MutableMap[String, Double] = {
+  def stockQuarters(stockFile: String): MutableMap[String, Double] = {
     val filePath = this.stocksPath + StockLoader.DirSeparator + stockFile
     val stockSource = Source.fromFile(filePath)
     val stockQuarters = MutableMap[String, Double]()

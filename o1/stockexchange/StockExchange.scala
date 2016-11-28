@@ -1,15 +1,30 @@
 package o1.stockexchange
 
-import scala.collection.mutable.Map
+import scala.collection.mutable.Buffer
+import scala.collection.mutable.{Map => MutableMap}
 
 class StockExchange {
   
-  private val _stockLoader = new StockLoader(StockExchange.StocksPath)
-  private val _stocks: Map[Int, String] = _stockLoader.loadStocksFromFile(StockExchange.StocksListFile)
+  private val stockLoader = new StockLoader(StockExchange.StocksPath)
+  private val stocks: MutableMap[Int, String] = this.stockLoader.stocksList(StockExchange.StocksListFile)
+  private val quarters: Buffer[Quarter] = Buffer[Quarter]()
   
-  // @todo loop through stocks, load them and create quarter instances etc
-  val stock = this._stockLoader.loadStock("1000.txt")
-  println(stock)
+  for ((stockId, companyName) <- this.stocks) {
+    val stockQuarters = this.stockLoader.stockQuarters(stockId + ".txt")
+    
+    for ((quarterName, averagePrice) <- stockQuarters) {
+      this.quarterByName(quarterName) match {
+        case Some(quarter) => quarter.stocks(stockId) = averagePrice
+        case None => {
+          val quarter = new Quarter(quarterName)
+          quarter.stocks(stockId) = averagePrice
+          this.quarters += quarter
+        }
+      }
+    }
+  }
+  
+  private def quarterByName(name: String): Option[Quarter] = this.quarters.find(_.name == name)
   
 }
 
