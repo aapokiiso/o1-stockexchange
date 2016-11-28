@@ -26,16 +26,10 @@ class StockExchange {
       }
     }
     
-    // Map quarters data to Quarter objects.
-    val quarters = quartersData.map((quarter) => {
-      val quarterName = quarter._1
-      val quarterStocks = quarter._2
-      
-      new Quarter(quarterName, quarterStocks.toMap)
-    })
+    val quarters = quartersData.map((q) => new Quarter(q._1, q._2.toMap)).toVector
     
     // Sort quarters chronologically (1/1990, 3/1991, ... 4/2016)
-    val sortedQuarters = quarters.toVector.sortWith(_ < _)
+    val sortedQuarters = quarters.sortWith(_ < _)
     
     sortedQuarters
   }
