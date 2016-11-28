@@ -1,5 +1,3 @@
 package o1.stockexchange
 
-class Company {
-  
-}
+class Company(val id: Int, val name: String)

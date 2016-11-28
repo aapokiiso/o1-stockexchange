@@ -1,8 +1,6 @@
 package o1.stockexchange
 
-import scala.collection.immutable.Map
-
-class Quarter(val name: String, val stocks: Map[Int, Double]) {
+class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   val quarter = Quarter.quarter(this.name)
   val year = Quarter.year(this.name)
