@@ -101,7 +101,10 @@ object StockExchangeGUI extends SimpleSwingApplication {
       } else {
         this.turnOutput.text = info + "\n\n" + this.game.goodbyeMessage
       }
-      this.quarterInfo.text = this.game.quarter.fullDescription
+      this.quarterInfo.text = this.game.quarter match {
+        case Some(quarter) => quarter.fullDescription
+        case None => ""
+      }
     }
 
     

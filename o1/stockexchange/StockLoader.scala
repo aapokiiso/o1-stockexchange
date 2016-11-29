@@ -1,9 +1,55 @@
 package o1.stockexchange
 
 import scala.io.Source
+import scala.collection.mutable.Buffer
 import scala.collection.immutable.Map
 
-class StockLoader(val stocksPath: String) {
+class StockLoader {
+  
+  private var stocksListCache: Option[Map[Int, Map[String, String]]] = None
+  
+  def companies: Map[Int, Company] = {
+    this.stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
+  }
+  
+  def quarters: Vector[Quarter] = {
+    val quartersData = scala.collection.mutable.Map[String, Buffer[QuarterStock]]()
+    
+    // Combined quarters data from all stocks.
+    for (stockId <- this.stocksList.keys) {
+      val stockQuarters = this.quartersByStockIdFromFile(stockId)
+      
+      for ((quarterName, averagePrice) <- stockQuarters) {
+        val stock = new QuarterStock(this.companies(stockId), averagePrice)
+        
+        quartersData.get(quarterName) match {
+          case Some(quarterStocks) => quarterStocks += stock
+          case None => {
+            // New quarter, initialize stocks buffer.
+            quartersData(quarterName) = Buffer[QuarterStock](stock)
+          }
+        }
+      }
+    }
+    
+    val quarters = quartersData.toVector.map((q) => new Quarter(q._1, q._2.toVector))
+    
+    // Sort quarters chronologically (1/1990, 3/1991, ... 4/2016)
+    val sortedQuarters = quarters.sortWith(_ < _)
+    
+    sortedQuarters
+  }
+  
+  private def stocksList = {
+    this.stocksListCache match {
+      case Some(stocksList) => stocksList
+      case None => {
+        val stocksList = this.stocksListFromFile
+        this.stocksListCache = Some(stocksList)
+        stocksList
+      }
+    }
+  }
   
   /**
    * Returns map of stock IDs and company names.
@@ -17,9 +63,8 @@ class StockLoader(val stocksPath: String) {
    * @param stocksFile - path to file to load stock data from,
    * 										 relative to the stock loader's base path.
    */
-  def stocksList(stocksFile: String): Map[Int, Map[String, String]] = {
-    val filePath = this.stocksPath + StockLoader.DirSeparator + stocksFile
-    val stocksSource = Source.fromFile(filePath)
+  private def stocksListFromFile: Map[Int, Map[String, String]] = {
+    val stocksSource = Source.fromFile(StockLoader.StocksListFile)
     
     try {
       val stocks = stocksSource.getLines().map((line) => {
@@ -48,8 +93,8 @@ class StockLoader(val stocksPath: String) {
    * @param stockFile - path to file to load stock data from,
    * 										relative to the stock loader's base path.
    */
-  def stockQuarters(stockFile: String): Map[String, Double] = {
-    val filePath = this.stocksPath + StockLoader.DirSeparator + stockFile
+  private def quartersByStockIdFromFile(stockId: Int): Map[String, Double] = {
+    val filePath = StockLoader.StocksDir + StockLoader.DirSeparator + stockId + StockLoader.FileExt
     val stockSource = Source.fromFile(filePath)
     
     try {
@@ -118,6 +163,10 @@ object StockLoader {
   
   val DirSeparator = "/"
   val CsvSeparator = ";"
+  val FileExt = ".txt"
+  
+  val StocksDir = "resources" + DirSeparator + "stocks"
+  val StocksListFile = StocksDir + DirSeparator + "index" + FileExt
   
   val StockListColumns = Vector("id", "ticker", "name")
   val StockListColumnIndices = (StockListColumns.zip(StockListColumns.indices)).toMap

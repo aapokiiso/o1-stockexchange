@@ -11,7 +11,7 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   // @todo
   def fullDescription: String = {
-    ""
+    "poop"
   }
   
   // @todo
