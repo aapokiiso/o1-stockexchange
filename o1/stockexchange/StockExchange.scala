@@ -24,7 +24,7 @@ class StockExchange {
   
   def welcomeMessage = {
     s"Welcome to ${this.title}!\n" + 
-    "Your objective, as an armchair stock broker, is to invest in companies on the Helsinki stock market.\n" +
+    "Your job, as an armchair stock broker, is to invest in companies on the Helsinki stock market.\n" +
     "Investing starts from the mid-90s, spanning through the IT-buble and its crash, the subsequent years of economic growth\n" +
     "and the 2008 housing bubble, all the way to the present day (late fall of 2016).\n" +
     s"Luckily you don't have to start empty-handed, as your father has given you a small loan of ${this.broker.capital} markka.\n" +
@@ -46,6 +46,17 @@ class StockExchange {
       this.currentQuarter = Some(this.quarters.next())
     } else {
       this.currentQuarter = None
+    }
+  }
+  
+  def companyByTicker(ticker: String): Option[Company] = this.companies.values.find( _.ticker == ticker )
+  
+  def getStockPrice(company: Company): Option[Double] = {
+    this.quarter match {
+      case Some(quarter) => {
+        quarter.stocks.find( _.company == company ).map( _.price )
+      }
+      case None => None
     }
   }
   

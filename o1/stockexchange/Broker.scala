@@ -53,6 +53,18 @@ class Broker(val name: String = Broker.FallbackName) {
     this.quitCommandGiven = true
   }
   
+  def status = {
+    var description = s"${this.name}\n" +
+    s"Capital: ${this.capital}\n" +
+    "Portfolio: \n"
+
+    // @todo portfolio for each
+    
+    description
+  }
+  
+  override def toString = this.status
+  
 }
 
 object Broker {

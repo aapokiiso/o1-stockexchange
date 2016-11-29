@@ -16,7 +16,7 @@ object Action {
   
   private class StatusAction extends Action {
     def execute(exchange: StockExchange): String = {
-      "@todo"
+      exchange.broker.toString
     }
   }
   
@@ -39,15 +39,59 @@ object Action {
     }
   }
   
-  private class BuyStockAction extends Action {
-    def execute(exchange: StockExchange): String = {
-      "@todo"
+  private abstract class ChangeStockAction(modifiers: Vector[String]) extends Action {
+    val ticker = if (modifiers.size == 2) modifiers(0) else ""
+    val amount = if (modifiers.size == 2) modifiers(1).toInt else 0
+    
+    def execute(exchange: StockExchange): String = {      
+      if (this.amount > 0) {
+        
+        val company = exchange.companyByTicker(this.ticker)
+        
+        company match {
+          case Some(company) => {
+            
+            val stockPrice = exchange.getStockPrice(company)
+            
+            stockPrice match {
+              case Some(stockPrice) => {
+                
+                val buySuccess = this.changeStock(exchange.broker, company, stockPrice, this.amount)
+                
+                if (buySuccess) {
+                  "@todo change successful"
+                } else {
+                  "@todo not enough money"
+                }
+                
+              }
+              case None => "@todo stock price not found (maybe removed from exchnage?)"
+            }
+            
+          }
+          case None => "@todo company not found"
+        }
+        
+      } else {
+        "@todo invalid amount"
+      }
     }
+    
+    def changeStock(broker: Broker, company: Company, stockPrice: Double, amount: Int): Boolean
   }
   
-  private class SellStockAction extends Action {
-    def execute(exchange: StockExchange): String = {
-      "@todo"
+  private class BuyStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
+    def changeStock(broker: Broker, company: Company, stockPrice: Double, amount: Int): Boolean = broker.buy(company, stockPrice, amount)
+  }
+  
+  private class SellStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
+    def changeStock(broker: Broker, company: Company, stockPrice: Double, sellAmount: Int): Boolean = {
+      var amount: Option[Int] = None
+      if (sellAmount > 0) {
+        amount = Some(sellAmount)
+      }
+      
+      broker.sell(company, stockPrice, amount)
     }
   }
   
@@ -67,7 +111,7 @@ object Action {
   def apply(input: String): Action = {
     val commandText = input.trim.toLowerCase
     val verb        = commandText.takeWhile( _ != ' ' )
-    val modifiers   = commandText.drop(verb.length).trim
+    val modifiers   = commandText.drop(verb.length).trim.split(" ").toVector
     
     verb match {
       case "help" => new HelpAction()
@@ -75,8 +119,8 @@ object Action {
       case "nextquarter" => new NextQuarterAction()
       case "liststocks" => new ListStocksAction()
       case "examine" => new ExamineStockAction()
-      case "buy" => new BuyStockAction()
-      case "sell" => new SellStockAction()
+      case "buy" => new BuyStockAction(modifiers)
+      case "sell" => new SellStockAction(modifiers)
       case "quit" => new QuitAction()
       case default => new UndefinedAction()
     }
