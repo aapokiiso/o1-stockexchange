@@ -1,6 +1,6 @@
 package o1.stockexchange
 
-class Broker(val name: String = Broker.FallbackName) {
+class Broker(var name: String = Broker.FallbackName) {
   
   var pricesheet = Map[Company, Double]()
   private var currentCapital: Double = Broker.InitialCapital
@@ -11,7 +11,11 @@ class Broker(val name: String = Broker.FallbackName) {
   
   def capital = this.currentCapital
   
-  def formattedCapital = StockExchange.formatPrice(this.capital)
+  def portfolioGrowth = {
+    val percents = this.holdQtys.keys.map(portfolioItemGrowth)
+    
+    percents.sum / percents.size
+  }
   
   def buy(company: Company, amount: Int): Boolean = {
     val stockPrice = this.pricesheet(company)
@@ -47,12 +51,62 @@ class Broker(val name: String = Broker.FallbackName) {
     true
   }
   
+  def portfolioItemWorth(company: Company) = {
+    val holdQty = this.holdQtys(company)
+    val stockPrice = this.pricesheet(company)
+
+    stockPrice * holdQty
+  }
+  
+  def portfolioItemGrowth(company: Company) = {
+    val holdQty = this.holdQtys(company)
+    val investedSum = this.investedSums(company)
+    val stockPrice = this.pricesheet(company)
+    val totalWorth = stockPrice * holdQty
+    
+    (totalWorth - investedSum) / investedSum
+  }
+  
   def holdQty(company: Company): Int = {
     this.holdQtys.get(company) match {
       case Some(qty) => qty
       case None => 0
     }
   }
+  
+  def hasQuit = this.quitCommandGiven
+  
+  def quit(): Unit = {
+    this.quitCommandGiven = true
+  }
+  
+  def status = {
+    val formattedCapital = StockExchange.formatPrice(this.capital)
+    val formattedGrowth = StockExchange.formatPercent(this.portfolioGrowth)
+    
+    s"Name: ${this.name}\n" +
+    s"Capital: ${formattedCapital}\n" +
+    s"Total growth: ${formattedGrowth}\n\n" +
+    "Portfolio: \n" +
+    this.portfolioDescription
+  }
+  
+  def portfolioDescription: String = {
+    val headingRow = Vector(Vector("Company name", "Hold quantity", "Invested sum (mk)", "Total worth (mk)", "Growth (%)"))
+    val itemRows = this.holdQtys.keys.map((company) => {
+      val holdQty = this.holdQtys(company)
+      val investedSum = StockExchange.formatPrice(this.investedSums(company), false)
+      val totalWorth = StockExchange.formatPrice(this.portfolioItemWorth(company), false)
+      val growthPercent = StockExchange.formatPercent(this.portfolioItemGrowth(company), false)
+      
+      Vector(company.name, holdQty, investedSum, totalWorth, growthPercent)
+    })
+    val rows = Vector.concat(headingRow, itemRows)
+    
+    Tabulator.format(rows)
+  }
+  
+  override def toString = this.status
   
   private def increaseHoldQty(company: Company, qty: Int) = {
     this.changeHoldQty(company, qty.abs)
@@ -86,39 +140,6 @@ class Broker(val name: String = Broker.FallbackName) {
       case None => this.investedSums(company) = purchasePrice
     }
   }
-  
-  def hasQuit = this.quitCommandGiven
-  
-  def quit(): Unit = {
-    this.quitCommandGiven = true
-  }
-  
-  def status = {
-    s"Name: ${this.name}\n" +
-    s"Capital: ${this.formattedCapital}\n" +
-    "Portfolio: \n" +
-    this.portfolioDescription
-  }
-  
-  def portfolioDescription: String = {
-    // @todo buy price and change in worth    
-    val headingRow = Vector(Vector("Company name", "Hold quantity", "Invested sum (mk.)", "Total worth (mk.)", "Growth (%)"))
-    val itemRows = this.holdQtys.map((item) => {
-      val companyName = item._1.name
-      val holdQty = item._2
-      val investedSum = StockExchange.formatPrice(this.investedSums(item._1))
-      val stockPrice = this.pricesheet(item._1)
-      val totalWorth = StockExchange.formatPrice(stockPrice * holdQty)
-      val growthPercent = StockExchange.formatPercent((totalWorth - investedSum) / investedSum)
-      
-      Vector(companyName, holdQty, investedSum, totalWorth, growthPercent)
-    })
-    val rows = Vector.concat(headingRow, itemRows)
-    
-    Tabulator.format(rows)
-  }
-  
-  override def toString = this.status
   
 }
 

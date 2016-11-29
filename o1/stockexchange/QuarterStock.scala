@@ -2,7 +2,7 @@ package o1.stockexchange
 
 class QuarterStock(val company: Company, val price: Double) {
   
-  def formattedPrice: Double = StockExchange.formatPrice(this.price)
+  def formattedPrice: String = StockExchange.formatPrice(this.price)
   
   def fullDescription = {
     // todo add company description

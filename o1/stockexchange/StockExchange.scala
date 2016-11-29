@@ -63,8 +63,8 @@ class StockExchange {
 
 object StockExchange {
   
-  def formatPrice(price: Double) = Math.round(price * 100.00) / 100.00
+  def formatPrice(price: Double, includeUnit: Boolean = true) = Math.round(price * 100.00) / 100.00 + (if (includeUnit) " mk" else "")
   
-  def formatPercent(percent: Double) = Math.round(percent * 100.00) / 1.00
+  def formatPercent(percent: Double, includeUnit: Boolean = true) = Math.round(percent * 100.00) / 1.00 + (if (includeUnit) "%" else "")
   
 }

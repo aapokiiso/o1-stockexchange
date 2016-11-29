@@ -20,6 +20,16 @@ object Action {
     }
   }
   
+  private class RenameBrokerAction(modifiers: Vector[String]) extends Action {
+    val name = modifiers.mkString(" ")
+    
+    def execute(exchange: StockExchange): String = {
+      exchange.broker.name = this.name
+      
+      s"You have been renamed as ${this.name}"
+    }
+  }
+  
   private class NextQuarterAction extends Action {
     def execute(exchange: StockExchange): String = {
       exchange.nextQuarter()
@@ -115,13 +125,14 @@ object Action {
   }
   
   def apply(input: String): Action = {
-    val commandText = input.trim.toLowerCase
+    val commandText = input.trim
     val verb        = commandText.takeWhile( _ != ' ' )
     val modifiers   = commandText.drop(verb.length).trim.split(" ").toVector
     
     verb match {
       case "help" => new HelpAction()
       case "status" => new StatusAction()
+      case "rename" => new RenameBrokerAction(modifiers)
       case "nextquarter" => new NextQuarterAction()
       case "liststocks" => new ListStocksAction()
       case "examine" => new ExamineStockAction(modifiers)
