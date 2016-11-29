@@ -73,13 +73,17 @@ class StockLoader {
    */
   private def stocksListFromFile: Map[Int, Map[String, String]] = {
     val stocksSource = Source.fromFile(StockLoader.StocksListFile)
+    val tickers = Buffer[String]()
     
     try {
       val stocks = stocksSource.getLines().map((line) => {
         val stockId = this.stockListValue(line, "id").toInt
+        val ticker = this.getUniqueTicker(tickers, this.stockListValue(line, "ticker"))
+        tickers += ticker
         val companyData = Map(
-            "ticker" -> this.stockListValue(line, "ticker"), 
-            "name" -> this.stockListValue(line, "name")
+            "ticker" -> ticker,
+            "name" -> this.stockListValue(line, "name"),
+            "description" -> this.stockListValue(line, "description")
             )
         stockId -> companyData
       })
@@ -159,11 +163,23 @@ class StockLoader {
     pricesSum / stockDayLines.size
   }
   
+  private def getUniqueTicker(tickers: Buffer[String], ticker: String): String = {
+    var i = 0
+    var uniqueTicker = ticker
+    
+    while (tickers.contains(ticker) && i < StockLoader.TickerSuffixOptions.size) {
+      uniqueTicker = ticker + StockLoader.TickerSuffixOptions(i)
+      i += 1
+    }
+    
+    uniqueTicker
+  }
+  
   private def stockListValue(line: String, columnName: String) = this.csvValue(line, columnName, StockLoader.StockListColumnIndices)
   
   private def stockValue(line: String, columnName: String) = this.csvValue(line, columnName, StockLoader.StockColumnIndices)
   
-  private def csvValue(line: String, columnName: String, columnsList: Map[String, Int]) = line.split(StockLoader.CsvSeparator)(columnsList(columnName))
+  private def csvValue(line: String, columnName: String, columnsList: Map[String, Int]) = line.split(StockLoader.CsvSeparator, -1)(columnsList(columnName))
   
 }
 
@@ -176,7 +192,7 @@ object StockLoader {
   val StocksDir = "resources" + DirSeparator + "stocks"
   val StocksListFile = StocksDir + DirSeparator + "index" + FileExt
   
-  val StockListColumns = Vector("id", "ticker", "name")
+  val StockListColumns = Vector("id", "ticker", "name", "description")
   val StockListColumnIndices = (StockListColumns.zip(StockListColumns.indices)).toMap
   
   val StockColumns = Vector("date", "open", "high", "low", "close", "volume")
@@ -184,5 +200,7 @@ object StockLoader {
   
   val StockDateFormat = new java.text.SimpleDateFormat("dd.MM.yyyy")
   val StockDateCalendar = java.util.Calendar.getInstance()
+  
+  val TickerSuffixOptions = ('A' to 'Z').reverse
   
 }

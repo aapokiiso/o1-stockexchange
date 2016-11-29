@@ -1,138 +1,138 @@
-1901;NES;Neste
-1196;AFA;Afarak Group
-1924;AHL;Ahlstrom
-2012;ENDO;Endomines (LP)
-1025;KEMIRA;Kemira
-1074;METS;Metsä Board A
-1054;METS;Metsä Board B
-2014;MUNK1;Munksjö
-1129;OUT;Outokumpu
-2001;SOSI;Sotkamo Silver
-2030;SSAB;SSAB A
-2031;SSAB;SSAB B
-1052;STE;Stora Enso A
-1036;STE;Stora Enso R
-1964;TLV;Talvivaara
-1135;UPM;UPM-Kymmene
-1109;ASPO;Aspo (LP)
-1035;ACG;Aspocomp Group
-1906;CGC;Cargotec
-2015;CAV;Caverion
-1081;CTH;Componenta
-2057;CONSTI;Consti Yhtiöt
-1102;CRA;Cramo
-1203;DOV;Dovre Group
-1174;EFO;Efore
-1189;ELE;Elecster A
-1200;ETT;Etteplan (LP)
-1051;EXL;Exel Composites
-1068;GLA;Glaston
-1120;HUH;Huhtamäki
-1167;ICP;Incap
-1194;KEL;Kesla A
-1907;KNE;Kone
-1098;KCR;Konecranes
-1080;LAT;Lassila & Tikanoja
-2065;LEHTO;Lehto Group
-1016;LEM;Lemminkäinen
-1031;METSO;Metso
-1171;NEO;Neo Industrial
-1190;NLG;Nurminen Logistics
-1934;OTE;Outotec
-1041;PKC;PKC Group
-1046;PON;Ponsse
-1023;POY;Pöyry
-1070;RMR;Ramirent
-1011;RUT;Raute A (LP)
-1996;SCL;Scanfil
-1946;SRV;SRV Yhtiöt
-1184;TAM;Takoma
-1981;TIK;Tikkurila
-1156;TUL;Tulikivi A
-1040;UNR;Uponor
-1186;UUT;Uutechnic Group (LP)
-1043;VAI;Vaisala A
-2020;VALMT;Valmet
-1038;VALOE;Valoe
-1144;WUF;Wulff-Yhtiöt
-1059;WRT;Wärtsilä
-1119;YTY;YIT
-1173;YLE;Yleiselektroniikka E
-1017;AME;Amer Sports A
-1066;APETI;Apetit (LP)
-1158;ATR;Atria A
-1003;FIS;Fiskars
-1021;HKS;HKScan A
-1181;HON;Honkarakenne B (LP)
-1142;MMO;Marimekko
-1166;MAR;Martela A (LP)
-1088;NRE;Nokian Renkaat
-1141;OLV;Olvi A
-1000;RAI;Raisio V
-1122;RAP;Rapala VMC
-1161;SAG;Saga Furs C
-1154;SUY;Suominen
-1201;BIO;Biohit B
-1932;OKD;Oriola-KD A
-1933;OKD;Oriola-KD B
-1930;ORN;Orion A
-1931;ORN;Orion B
-2047;PIHLIS;Pihlajalinna
-1208;REG;Revenio Group
-1902;ALN;Alma Media
-1112;FIA;Finnair
-1110;ILK;Ilkka-Yhtymä II
-1113;KSL;Keskisuomalainen A
-1027;KES;Kesko A
-1028;KES;Kesko B
-2051;PIZZA;Kotipizza Group (LP)
-1193;PKK;Pohjois-Karjalan Kirjapaino (LP)
-2017;RESTA;Restamax
-1091;SAA;Sanoma
-1058;STC;Stockmann A
-1056;STC;Stockmann B
-2066;TOKMAN;Tokmanni Group
-1004;VIK;Viking Line
-1143;ELI;Elisa
-1029;TELIA;Telia Company
-1032;FUM;Fortum
-1970;AKT;Aktia Pankki A
-1971;AKT;Aktia Pankki R
-2044;ATG;Asiakastieto Group
-1069;CPM;CapMan B
-1111;CTY;Citycon
-1211;EQV;eQ
-2056;EVLI;Evli Pankki
-1169;INV;Investors House (LP)
-1083;NDA;Nordea Bank
-1114;NVA;Norvestia
-2016;OREIT;Orava Asuntorahasto (LP)
-2061;OREIT;Orava Asuntorahasto uudet
-1178;PNA;Panostaja
-1089;SAMPO;Sampo A
-1121;SCI;Sievi Capital
-1006;SDA;Sponda
-2011;TAALA;Taaleri
-1140;TPS;Technopolis
-1104;ALB;Ålandsbanken A
-1105;ALB;Ålandsbanken B
-1905;AFE;Affecto (LP)
-1198;BAS;Basware
-1117;BIT;Bittium
-1039;CTL;Comptel
-1076;DIG;Digia
-1049;FSC;F-Secure
-1042;IFA;Innofactor (LP)
-1197;XNS;Ixonos
-1050;NOK;Nokia
-2060;NOK;Nokia uudet 2016
-1213;QPR;QPR Software
-2067;QTCOM;Qt Group
-2006;SIILI;Siili Solutions (LP)
-1202;STQ;Solteq
-1228;SOPRA;Soprano (LP)
-1065;SSH;SSH Comm. Security
-1087;TEM;Tecnotree
-1030;TLT;Teleste
-1033;TIE;Tieto
-1205;TRH;Trainers' House (LP)
+1901;NES;Neste;Some oil company
+1196;AFA;Afarak Group;
+1924;AHL;Ahlstrom;
+2012;ENDO;Endomines (LP);
+1025;KEMIRA;Kemira;
+1074;METS;Metsä Board A;
+1054;METS;Metsä Board B;
+2014;MUNK1;Munksjö;
+1129;OUT;Outokumpu;
+2001;SOSI;Sotkamo Silver;
+2030;SSAB;SSAB A;
+2031;SSAB;SSAB B;
+1052;STE;Stora Enso A;
+1036;STE;Stora Enso R;
+1964;TLV;Talvivaara;
+1135;UPM;UPM-Kymmene;
+1109;ASPO;Aspo (LP);
+1035;ACG;Aspocomp Group;
+1906;CGC;Cargotec;
+2015;CAV;Caverion;
+1081;CTH;Componenta;
+2057;CONSTI;Consti Yhtiöt;
+1102;CRA;Cramo;
+1203;DOV;Dovre Group;
+1174;EFO;Efore;
+1189;ELE;Elecster A;
+1200;ETT;Etteplan (LP);
+1051;EXL;Exel Composites;
+1068;GLA;Glaston;
+1120;HUH;Huhtamäki;
+1167;ICP;Incap;
+1194;KEL;Kesla A;
+1907;KNE;Kone;
+1098;KCR;Konecranes;
+1080;LAT;Lassila & Tikanoja;
+2065;LEHTO;Lehto Group;
+1016;LEM;Lemminkäinen;
+1031;METSO;Metso;
+1171;NEO;Neo Industrial;
+1190;NLG;Nurminen Logistics;
+1934;OTE;Outotec;
+1041;PKC;PKC Group;
+1046;PON;Ponsse;
+1023;POY;Pöyry;
+1070;RMR;Ramirent;
+1011;RUT;Raute A (LP);
+1996;SCL;Scanfil;
+1946;SRV;SRV Yhtiöt;
+1184;TAM;Takoma;
+1981;TIK;Tikkurila;
+1156;TUL;Tulikivi A;
+1040;UNR;Uponor;
+1186;UUT;Uutechnic Group (LP);
+1043;VAI;Vaisala A;
+2020;VALMT;Valmet;
+1038;VALOE;Valoe;
+1144;WUF;Wulff-Yhtiöt;
+1059;WRT;Wärtsilä;
+1119;YTY;YIT;
+1173;YLE;Yleiselektroniikka E;
+1017;AME;Amer Sports A;
+1066;APETI;Apetit (LP);
+1158;ATR;Atria A;
+1003;FIS;Fiskars;
+1021;HKS;HKScan A;
+1181;HON;Honkarakenne B (LP);
+1142;MMO;Marimekko;
+1166;MAR;Martela A (LP);
+1088;NRE;Nokian Renkaat;
+1141;OLV;Olvi A;
+1000;RAI;Raisio V;
+1122;RAP;Rapala VMC;
+1161;SAG;Saga Furs C;
+1154;SUY;Suominen;
+1201;BIO;Biohit B;
+1932;OKD;Oriola-KD A;
+1933;OKD;Oriola-KD B;
+1930;ORN;Orion A;
+1931;ORN;Orion B;
+2047;PIHLIS;Pihlajalinna;
+1208;REG;Revenio Group;
+1902;ALN;Alma Media;
+1112;FIA;Finnair;
+1110;ILK;Ilkka-Yhtymä II;
+1113;KSL;Keskisuomalainen A;
+1027;KES;Kesko A;
+1028;KES;Kesko B;
+2051;PIZZA;Kotipizza Group (LP);
+1193;PKK;Pohjois-Karjalan Kirjapaino (LP);
+2017;RESTA;Restamax;
+1091;SAA;Sanoma;
+1058;STC;Stockmann A;
+1056;STC;Stockmann B;
+2066;TOKMAN;Tokmanni Group;
+1004;VIK;Viking Line;
+1143;ELI;Elisa;
+1029;TELIA;Telia Company;
+1032;FUM;Fortum;
+1970;AKT;Aktia Pankki A;
+1971;AKT;Aktia Pankki R;
+2044;ATG;Asiakastieto Group;
+1069;CPM;CapMan B;
+1111;CTY;Citycon;
+1211;EQV;eQ;
+2056;EVLI;Evli Pankki;
+1169;INV;Investors House (LP);
+1083;NDA;Nordea Bank;
+1114;NVA;Norvestia;
+2016;OREIT;Orava Asuntorahasto (LP);
+2061;OREIT;Orava Asuntorahasto uudet;
+1178;PNA;Panostaja;
+1089;SAMPO;Sampo A;
+1121;SCI;Sievi Capital;
+1006;SDA;Sponda;
+2011;TAALA;Taaleri;
+1140;TPS;Technopolis;
+1104;ALB;Ålandsbanken A;
+1105;ALB;Ålandsbanken B;
+1905;AFE;Affecto (LP);
+1198;BAS;Basware;
+1117;BIT;Bittium;
+1039;CTL;Comptel;
+1076;DIG;Digia;
+1049;FSC;F-Secure;
+1042;IFA;Innofactor (LP);
+1197;XNS;Ixonos;
+1050;NOK;Nokia;
+2060;NOK;Nokia uudet 2016;
+1213;QPR;QPR Software;
+2067;QTCOM;Qt Group;
+2006;SIILI;Siili Solutions (LP);
+1202;STQ;Solteq;
+1228;SOPRA;Soprano (LP);
+1065;SSH;SSH Comm. Security;
+1087;TEM;Tecnotree;
+1030;TLT;Teleste;
+1033;TIE;Tieto;
+1205;TRH;Trainers' House (LP);

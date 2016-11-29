@@ -9,6 +9,8 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def >(another: Quarter): Boolean = this.year > another.year || (this.year == another.year && this.quarter > another.quarter)
   
+  def pricesheet: Map[Company, Double] = this.stocks.map((quarterStock) => quarterStock.company -> quarterStock.rawPrice).toMap
+  
   def stockByTicker(ticker: String): Option[QuarterStock] = this.stocks.find( _.company.ticker == ticker )
   
   // @todo
@@ -23,7 +25,7 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   override def toString = this.description
   
-}
+} 
 
 object Quarter {
   

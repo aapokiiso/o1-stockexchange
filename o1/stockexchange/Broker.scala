@@ -16,37 +16,37 @@ class Broker(val name: String = Broker.FallbackName) {
     
     if (canBuy) {
       this.currentCapital -= requiredCapital
-      this.changeAmountOwned(company, amount)
+      this.changeHoldQuantity(company, amount)
     }
     
     canBuy
   }
   
-  def sell(company: Company, sellAmount: Option[Int] = None): Boolean = {
+  def sell(company: Company, sellAmount: Option[Int] = None): Boolean = { 
     val amount = sellAmount match {
-      case Some(i) => i
-      case None => this.amountOwned(company)
+      case Some(amount) => amount
+      case None => this.holdQuantity(company)
     }
     
     val stockPrice = this.pricesheet(company)
     val redeemedCapital = stockPrice * amount
     this.currentCapital += redeemedCapital
-    this.changeAmountOwned(company, amount)
+    this.changeHoldQuantity(company, amount)
     
     true
   }
   
-  def amountOwned(company: Company): Int = {
+  def holdQuantity(company: Company): Int = {
     this.portfolio.get(company) match {
-      case Some(amount) => amount
+      case Some(qty) => qty
       case None => 0
     }
   }
   
-  private def changeAmountOwned(company: Company, amount: Int): Unit = {
+  private def changeHoldQuantity(company: Company, qtyChange: Int): Unit = {
     this.portfolio.get(company) match {
-      case Some(existingAmount) => this.portfolio(company) = existingAmount + amount
-      case None => this.portfolio(company) = amount
+      case Some(existingQty) => this.portfolio(company) = existingQty + qtyChange
+      case None => this.portfolio(company) = qtyChange
     }
   }
   
@@ -57,20 +57,26 @@ class Broker(val name: String = Broker.FallbackName) {
   }
   
   def status = {
-    var description = s"${this.name}\n" +
+    s"Name: ${this.name}\n" +
     s"Capital: ${this.capital}\n" +
     "Portfolio: \n" +
-    s"\tCompany name - Holding amount - Total worth (mk.)\n"
-     // @todo buy price and change in worth    
-    this.portfolio.foreach((item) => {
+    this.portfolioDescription
+  }
+  
+  def portfolioDescription: String = {
+    // @todo buy price and change in worth    
+    val headingRow = Vector(Vector("Company name", "Hold quantity", "Total worth (mk.)"))
+    val itemRows = this.portfolio.map((item) => {
       val companyName = item._1.name
-      val holdAmount = item._2
+      val holdQty = item._2
       val stockPrice = this.pricesheet(item._1)
-      val totalWorth = stockPrice * holdAmount
-      description += s"\t${companyName} - ${holdAmount} - ${totalWorth}\n"
+      val totalWorth = Math.round(stockPrice * holdQty * 100.00) / 100.00
+      
+      Vector(companyName, holdQty, totalWorth)
     })
+    val rows = Vector.concat(headingRow, itemRows)
     
-    description
+    Tabulator.format(rows)
   }
   
   override def toString = this.status

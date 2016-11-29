@@ -45,7 +45,7 @@ class StockExchange {
     if (this.quarters.hasNext) {
       val nextQuarter = this.quarters.next()
       this.currentQuarter = Some(nextQuarter)
-      this.broker.pricesheet = nextQuarter.stocks.map((quarterStock) => quarterStock.company -> quarterStock.price).toMap
+      this.broker.pricesheet = nextQuarter.pricesheet
     } else {
       this.currentQuarter = None
       this.broker.pricesheet = Map[Company, Double]()
