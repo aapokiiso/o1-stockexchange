@@ -1,15 +1,17 @@
 package o1.stockexchange
 
-class QuarterStock(val company: Company, val rawPrice: Double) {
+class QuarterStock(val company: Company, val price: Double) {
   
-  def price: Double = Math.round(this.rawPrice * 100.00) / 100.00
+  def formattedPrice: Double = StockExchange.formatPrice(this.price)
   
-  def description = {
+  def fullDescription = {
     // todo add company description
     s"${this.company.name} (${this.company.ticker}):\n" +
-    s"Current price: ${this.price}"
+    s"Current price: ${this.formattedPrice}"
   }
   
-  override def toString = this.description
+  def rowDescription = s"${this.company.name} (${this.company.ticker}): ${this.formattedPrice}"
+  
+  override def toString = this.rowDescription
   
 }

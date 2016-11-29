@@ -52,6 +52,19 @@ class StockExchange {
     }
   }
   
-  def companyByTicker(ticker: String): Option[Company] = this.companies.values.find( _.ticker == ticker )
+  def stockByTicker(ticker: String): Option[QuarterStock] = {
+    this.quarter match {
+      case Some(quarter) => quarter.stockByTicker(ticker)
+      case None => None
+    }
+  }
+  
+}
+
+object StockExchange {
+  
+  def formatPrice(price: Double) = Math.round(price * 100.00) / 100.00
+  
+  def formatPercent(percent: Double) = Math.round(percent * 100.00) / 1.00
   
 }

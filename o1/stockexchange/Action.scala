@@ -43,7 +43,7 @@ object Action {
       exchange.quarter match {
         case Some(quarter) => {
           quarter.stockByTicker(ticker) match {
-            case Some(stock) => stock.description
+            case Some(stock) => stock.fullDescription
             case None => ""
           }
         }
@@ -53,45 +53,51 @@ object Action {
   }
   
   private abstract class ChangeStockAction(modifiers: Vector[String]) extends Action {
-    val ticker = if (modifiers.size == 2) modifiers(0).toUpperCase() else ""
+    val ticker = if (modifiers.size >= 1) modifiers(0).toUpperCase() else ""
     val amount = if (modifiers.size == 2) modifiers(1).toInt else 0
     
     def execute(exchange: StockExchange): String = {      
-      if (this.amount > 0) {
-        val company = exchange.companyByTicker(this.ticker)
+      val stock = exchange.stockByTicker(this.ticker)
         
-        company match {
-          case Some(company) => {
-            val buySuccess = this.changeStock(exchange.broker, company, this.amount)
-
-            if (buySuccess) {
-              "@todo change successful"
-            } else {
-              "@todo not enough money"
-            }
-          }
-          case None => "@todo company not found"
+      stock match {
+        case Some(stock) => {
+          this.changeStock(exchange.broker, stock.company, this.amount)
         }
-      } else {
-        "@todo invalid amount"
+        case None => "@todo stock not found"
       }
     }
     
-    def changeStock(broker: Broker, company: Company, amount: Int): Boolean
+    def changeStock(broker: Broker, company: Company, amount: Int): String
   }
   
   private class BuyStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
-    def changeStock(broker: Broker, company: Company, amount: Int): Boolean = broker.buy(company, amount)
+    def changeStock(broker: Broker, company: Company, amount: Int): String = {
+      if (amount > 0) {
+        val buySuccess = broker.buy(company, amount)
+        if (buySuccess) {
+          "@todo buy success"
+        } else {
+          "@todo not enough capital"
+        }
+      } else {
+        "@todo no qty"
+      }
+    }
   }
   
   private class SellStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
-    def changeStock(broker: Broker, company: Company, sellAmount: Int): Boolean = {
+    def changeStock(broker: Broker, company: Company, sellAmount: Int): String = {
       var amount: Option[Int] = None
       if (sellAmount > 0) {
         amount = Some(sellAmount)
       }
       
-      broker.sell(company, amount)
+      val sellSuccess = broker.sell(company, amount)
+      if (sellSuccess) {
+        "@todo sell success"
+      } else {
+        "@todo sell failed"
+      }
     }
   }
   
