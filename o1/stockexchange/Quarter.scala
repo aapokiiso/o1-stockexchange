@@ -9,6 +9,14 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def >(another: Quarter): Boolean = this.year > another.year || (this.year == another.year && this.quarter > another.quarter)
   
+  // @todo
+  def fullDescription: String = {
+    ""
+  }
+  
+  // @todo
+  override def toString = ""
+  
 }
 
 object Quarter {
