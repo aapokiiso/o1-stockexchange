@@ -43,21 +43,15 @@ class StockExchange {
 
   def nextQuarter(): Unit = {
     if (this.quarters.hasNext) {
-      this.currentQuarter = Some(this.quarters.next())
+      val nextQuarter = this.quarters.next()
+      this.currentQuarter = Some(nextQuarter)
+      this.broker.pricesheet = nextQuarter.stocks.map((quarterStock) => quarterStock.company -> quarterStock.price).toMap
     } else {
       this.currentQuarter = None
+      this.broker.pricesheet = Map[Company, Double]()
     }
   }
   
   def companyByTicker(ticker: String): Option[Company] = this.companies.values.find( _.ticker == ticker )
-  
-  def getStockPrice(company: Company): Option[Double] = {
-    this.quarter match {
-      case Some(quarter) => {
-        quarter.stocks.find( _.company == company ).map( _.price )
-      }
-      case None => None
-    }
-  }
   
 }

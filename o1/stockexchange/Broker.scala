@@ -2,13 +2,15 @@ package o1.stockexchange
 
 class Broker(val name: String = Broker.FallbackName) {
   
+  var pricesheet = Map[Company, Double]()
   private var currentCapital: Double = Broker.InitialCapital
   private val portfolio = scala.collection.mutable.Map[Company, Int]()
   private var quitCommandGiven = false
   
   def capital = this.currentCapital
   
-  def buy(company: Company, stockPrice: Double, amount: Int): Boolean = {
+  def buy(company: Company, amount: Int): Boolean = {
+    val stockPrice = this.pricesheet(company)
     val requiredCapital = stockPrice * amount
     val canBuy = this.capital >= requiredCapital
     
@@ -20,12 +22,13 @@ class Broker(val name: String = Broker.FallbackName) {
     canBuy
   }
   
-  def sell(company: Company, stockPrice: Double, sellAmount: Option[Int] = None): Boolean = {
+  def sell(company: Company, sellAmount: Option[Int] = None): Boolean = {
     val amount = sellAmount match {
       case Some(i) => i
       case None => this.amountOwned(company)
     }
     
+    val stockPrice = this.pricesheet(company)
     val redeemedCapital = stockPrice * amount
     this.currentCapital += redeemedCapital
     this.changeAmountOwned(company, amount)
@@ -56,9 +59,16 @@ class Broker(val name: String = Broker.FallbackName) {
   def status = {
     var description = s"${this.name}\n" +
     s"Capital: ${this.capital}\n" +
-    "Portfolio: \n"
-
-    // @todo portfolio for each
+    "Portfolio: \n" +
+    s"\tCompany name - Holding amount - Total worth (mk.)\n"
+     // @todo buy price and change in worth    
+    this.portfolio.foreach((item) => {
+      val companyName = item._1.name
+      val holdAmount = item._2
+      val stockPrice = this.pricesheet(item._1)
+      val totalWorth = stockPrice * holdAmount
+      description += s"\t${companyName} - ${holdAmount} - ${totalWorth}\n"
+    })
     
     description
   }
