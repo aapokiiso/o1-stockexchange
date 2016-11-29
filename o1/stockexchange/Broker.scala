@@ -4,7 +4,7 @@ class Broker(var name: String = Broker.FallbackName) {
   
   var pricesheet = Map[Company, Double]()
   private var currentCapital: Double = Broker.InitialCapital
-  private val holdQtys = scala.collection.mutable.Map[Company, Int]()
+  private val holdingQtys = scala.collection.mutable.Map[Company, Int]()
   private val investedSums = scala.collection.mutable.Map[Company, Double]()
       
   private var quitCommandGiven = false
@@ -12,54 +12,52 @@ class Broker(var name: String = Broker.FallbackName) {
   def capital = this.currentCapital
   
   def portfolioGrowth = {
-    val percents = this.holdQtys.keys.map(portfolioItemGrowth)
+    val percents = this.holdingQtys.keys.map(holdingGrowth)
     
     percents.sum / percents.size
   }
   
-  def buy(company: Company, amount: Int): Boolean = {
-    val stockPrice = this.pricesheet(company)
-    val purchasePrice = stockPrice * amount
+  def buy(company: Company, qty: Int): Boolean = {
+    val purchasePrice = this.currentPrice(company, qty)
     val canBuy = this.capital >= purchasePrice
     
     if (canBuy) {
       this.currentCapital -= purchasePrice
       
       this.increaseInvestedSum(company, purchasePrice)
-      this.increaseHoldQty(company, amount)
+      this.increaseHoldingQty(company, qty)
     }
     
     canBuy
   }
   
-  def sell(company: Company, sellAmount: Option[Int] = None): Boolean = { 
-    val amount = sellAmount match {
-      case Some(amount) => {
-        val holdQty = this.holdQty(company)
-        if (amount > holdQty) holdQty else amount
+  def sell(company: Company, sellQty: Option[Int] = None): Boolean = { 
+    val qty = sellQty match {
+      case Some(qty) => {
+        val holdQty = this.holdingQty(company)
+        if (qty > holdQty) holdQty else qty
       }
-      case None => this.holdQty(company)
+      case None => this.holdingQty(company)
     }
     
-    val stockPrice = this.pricesheet(company)
-    val sellPrice = stockPrice * amount
+    val sellPrice = this.currentPrice(company, qty)
     this.currentCapital += sellPrice
     
     this.decreaseInvestedSum(company, sellPrice)
-    this.decreaseHoldQty(company, amount)
+    this.decreaseHoldingQty(company, qty)
     
     true
   }
   
-  def portfolioItemWorth(company: Company) = {
-    val holdQty = this.holdQtys(company)
+  def holdingWorth(company: Company) = {
+    val holdQty = this.holdingQtys(company)
     val stockPrice = this.pricesheet(company)
 
     stockPrice * holdQty
   }
   
-  def portfolioItemGrowth(company: Company) = {
-    val holdQty = this.holdQtys(company)
+  def holdingGrowth(company: Company) = {
+    val holdQty = this.holdingQtys(company)
     val investedSum = this.investedSums(company)
     val stockPrice = this.pricesheet(company)
     val totalWorth = stockPrice * holdQty
@@ -67,12 +65,14 @@ class Broker(var name: String = Broker.FallbackName) {
     (totalWorth - investedSum) / investedSum
   }
   
-  def holdQty(company: Company): Int = {
-    this.holdQtys.get(company) match {
+  def holdingQty(company: Company): Int = {
+    this.holdingQtys.get(company) match {
       case Some(qty) => qty
       case None => 0
     }
   }
+  
+  def currentPrice(company: Company, qty: Double) = this.pricesheet(company) * qty
   
   def hasQuit = this.quitCommandGiven
   
@@ -93,11 +93,11 @@ class Broker(var name: String = Broker.FallbackName) {
   
   def portfolioDescription: String = {
     val headingRow = Vector(Vector("Company name", "Hold quantity", "Invested sum (mk)", "Total worth (mk)", "Growth (%)"))
-    val itemRows = this.holdQtys.keys.map((company) => {
-      val holdQty = this.holdQtys(company)
+    val itemRows = this.holdingQtys.keys.map((company) => {
+      val holdQty = this.holdingQtys(company)
       val investedSum = StockExchange.formatPrice(this.investedSums(company), false)
-      val totalWorth = StockExchange.formatPrice(this.portfolioItemWorth(company), false)
-      val growthPercent = StockExchange.formatPercent(this.portfolioItemGrowth(company), false)
+      val totalWorth = StockExchange.formatPrice(this.holdingWorth(company), false)
+      val growthPercent = StockExchange.formatPercent(this.holdingGrowth(company), false)
       
       Vector(company.name, holdQty, investedSum, totalWorth, growthPercent)
     })
@@ -108,18 +108,18 @@ class Broker(var name: String = Broker.FallbackName) {
   
   override def toString = this.status
   
-  private def increaseHoldQty(company: Company, qty: Int) = {
-    this.changeHoldQty(company, qty.abs)
+  private def increaseHoldingQty(company: Company, qty: Int) = {
+    this.changeHoldingQty(company, qty.abs)
   }
   
-  private def decreaseHoldQty(company: Company, qty: Int) = {
-    this.changeHoldQty(company, -1 * qty.abs)
+  private def decreaseHoldingQty(company: Company, qty: Int) = {
+    this.changeHoldingQty(company, -1 * qty.abs)
   }
   
-  private def changeHoldQty(company: Company, qtyChange: Int): Unit = {
-    this.holdQtys.get(company) match {
-      case Some(existingQty) => this.holdQtys(company) = existingQty + qtyChange
-      case None => this.holdQtys(company) = qtyChange
+  private def changeHoldingQty(company: Company, qtyChange: Int): Unit = {
+    this.holdingQtys.get(company) match {
+      case Some(existingQty) => this.holdingQtys(company) = existingQty + qtyChange
+      case None => this.holdingQtys(company) = qtyChange
     }
   }
   
@@ -146,6 +146,6 @@ class Broker(var name: String = Broker.FallbackName) {
 object Broker {
   
   val FallbackName = "S. Einäkatu"
-  val InitialCapital = 20000.0 
+  val InitialCapital = 1000000.0 
   
 }

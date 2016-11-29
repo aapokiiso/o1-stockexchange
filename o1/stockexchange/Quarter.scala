@@ -9,13 +9,23 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def >(another: Quarter): Boolean = this.year > another.year || (this.year == another.year && this.quarter > another.quarter)
   
+  def stocksDiff(another: Quarter) = this.stocks.filter((stock) => {
+    var existsInAnother = false
+    for (anotherStock <- another.stocks) {
+      if (!existsInAnother && anotherStock.company == stock.company) {
+        existsInAnother = true
+      }
+    }
+    !existsInAnother
+  })
+  
   def pricesheet: Map[Company, Double] = this.stocks.map((quarterStock) => quarterStock.company -> quarterStock.price).toMap
   
   def stockByTicker(ticker: String): Option[QuarterStock] = this.stocks.find( _.company.ticker == ticker )
   
   // @todo
   def description: String = {
-    this.name +
+    s"Quarter ${this.name}\n" + 
     this.stocksDescription
   }
   
@@ -23,7 +33,11 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
     this.stocks.map( _.rowDescription ).mkString("\n")
   }
   
-  override def toString = this.description
+  def stocksDiffDescription(another: Quarter): String = {
+    this.stocksDiff(another).map( _.rowDescription ).mkString("\n")
+  }
+  
+  override def toString = this.name
   
 } 
 

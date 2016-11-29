@@ -1,4 +1,4 @@
-1901;NES;Neste;Some oil company
+1901;NES;Neste;
 1196;AFA;Afarak Group;
 1924;AHL;Ahlstrom;
 2012;ENDO;Endomines (LP);

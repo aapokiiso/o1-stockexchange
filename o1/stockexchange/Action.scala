@@ -10,7 +10,21 @@ object Action {
   
   private class HelpAction extends Action {
     def execute(exchange: StockExchange): String = {
-      "Help! @todo"
+      "The objective of the game is to stay profitable until the end of the game (approx. 80 quarters / turns).\n" +
+      "In this case the word 'profitable' means that capital + portfolio worth > 0.\n\n" +
+      "Commands:\n\n" + 
+      "help                                     Displays this help message.\n\n" +
+      "status                                   Displays your broker info and portfolio.\n\n" +
+      "rename <plaintext name>                  Renames your broker character.\n\n" +
+      "liststocks                               Shows available stocks on the exchange.\n\n" +
+      "examine <stock ticker code>              Shows additional information about the stock.\n" +
+      "                                         You can view a list of stocks and their ticker codes with 'liststocks'.\n\n" +
+      "buy <stock ticker code> <quantity>       Buys a number of stocks from the given company at the current price.\n" +
+      "                                         Example: 'buy VIK 10' (buys 10pcs of Viking Line stock).\n\n" +
+      "sell <stock ticker code> (<quantity>)    Sells a number of stocks from the given company at the current price.\n" +
+      "                                         Quantity is optional - if omitted, all stocks from this company are sold.\n\n" +
+      "nextquarter                              Proceed to the next quarter. The list of companies and their prices on\n" +
+      "                                         the exchange will be updated."
     }
   }
   
@@ -32,8 +46,36 @@ object Action {
   
   private class NextQuarterAction extends Action {
     def execute(exchange: StockExchange): String = {
+      var prevQuarter: Option[Quarter] = None
+      exchange.quarter match {
+        case Some(quarter) => prevQuarter = Some(quarter)
+        case None => prevQuarter = None
+      }
+      
       exchange.nextQuarter()
-      "@todo quarter changed"      
+      
+      exchange.quarter match {
+        case Some(quarter) => {
+          var message = s"Moved on to the quarter ${quarter.name}" 
+          prevQuarter match {
+            case Some(prevQuarter) => {
+              if (prevQuarter.stocksDiff(quarter).size > 0) {
+                message += "\n\nCompanies leaving the exchange this quarter:\n\n" +
+                prevQuarter.stocksDiffDescription(quarter)
+              }
+              
+              if (quarter.stocksDiff(prevQuarter).size > 0) {
+                message += "\n\nCompanies introduced to the exchange this quarter:\n\n" +
+                quarter.stocksDiffDescription(prevQuarter)
+              }
+            }
+            case None => ""
+          }
+          
+          message
+        }
+        case None => "" // Goodbye message is shown
+      }
     }
   }
   
@@ -54,7 +96,7 @@ object Action {
         case Some(quarter) => {
           quarter.stockByTicker(ticker) match {
             case Some(stock) => stock.fullDescription
-            case None => ""
+            case None => s"No stock found for '${this.ticker}'"
           }
         }
         case None => ""
@@ -73,7 +115,7 @@ object Action {
         case Some(stock) => {
           this.changeStock(exchange.broker, stock.company, this.amount)
         }
-        case None => "@todo stock not found"
+        case None => s"No stock found for '${this.ticker}'"
       }
     }
     
@@ -81,32 +123,51 @@ object Action {
   }
   
   private class BuyStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
-    def changeStock(broker: Broker, company: Company, amount: Int): String = {
-      if (amount > 0) {
-        val buySuccess = broker.buy(company, amount)
+    def changeStock(broker: Broker, company: Company, qty: Int): String = {
+      if (qty > 0) {
+        val purchasePrice = StockExchange.formatPrice(broker.currentPrice(company, qty))
+        
+        val buySuccess = broker.buy(company, qty)
         if (buySuccess) {
-          "@todo buy success"
+          s"Bought ${qty} of ${company.ticker} for ${purchasePrice}"
         } else {
-          "@todo not enough capital"
+          val capital = StockExchange.formatPrice(broker.capital)
+          s"Not enough capital to buy ${qty} of ${company.ticker}.\n" +
+          s"Purchase price: ${purchasePrice}\n" +
+          s"Current capital: ${capital}"
         }
       } else {
-        "@todo no qty"
+        "Purchase quantity was not specified. See 'help' for brokering instructions."
       }
     }
   }
   
   private class SellStockAction(modifiers: Vector[String]) extends ChangeStockAction(modifiers) {
-    def changeStock(broker: Broker, company: Company, sellAmount: Int): String = {
-      var amount: Option[Int] = None
-      if (sellAmount > 0) {
-        amount = Some(sellAmount)
+    def changeStock(broker: Broker, company: Company, sellQty: Int): String = {
+      var qty: Option[Int] = None
+      if (sellQty > 0) {
+        qty = Some(sellQty)
       }
       
-      val sellSuccess = broker.sell(company, amount)
+      var qtyStr = ""
+      var priceStr = ""
+      qty match {
+        case Some(qty) => {
+          qtyStr = qty.toString
+          priceStr = StockExchange.formatPrice(broker.currentPrice(company, qty))
+        }
+        case None => {
+          val holdQty = broker.holdingQty(company)
+          qtyStr = s"all ${holdQty}" 
+          priceStr = StockExchange.formatPrice(broker.currentPrice(company, holdQty))
+        }
+      }
+      
+      val sellSuccess = broker.sell(company, qty)
       if (sellSuccess) {
-        "@todo sell success"
+        s"Sold ${qtyStr} of ${company.ticker} for ${priceStr}"
       } else {
-        "@todo sell failed"
+        s"Failed to sell ${qtyStr} of ${company.ticker}. It's probably your fault. It's always your fault!"
       }
     }
   }
@@ -120,7 +181,7 @@ object Action {
   
   private class UndefinedAction extends Action {
     def execute(exchange: StockExchange): String = {
-      "Command not recognized."
+      "Command not recognized. Please turn 360° to the right and try again."
     }
   }
   

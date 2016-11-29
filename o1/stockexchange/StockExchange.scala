@@ -29,7 +29,7 @@ class StockExchange {
     "and the 2008 housing bubble, all the way to the present day (late fall of 2016).\n" +
     s"Luckily you don't have to start empty-handed, as your father has given you a small loan of ${this.broker.capital} markka.\n" +
     "This game has been certified SFV (Safe For Väyrynen), as no markkas will be turned to euros at any time.\n\n" + 
-    "If you need help with playing, type 'help' into the console. Good luck, and invest your money wisely!"
+    "If you need help with playing, type 'help' into the console. Good luck investing!"
   }
   
   def goodbyeMessage = {
@@ -65,6 +65,6 @@ object StockExchange {
   
   def formatPrice(price: Double, includeUnit: Boolean = true) = Math.round(price * 100.00) / 100.00 + (if (includeUnit) " mk" else "")
   
-  def formatPercent(percent: Double, includeUnit: Boolean = true) = Math.round(percent * 100.00) / 1.00 + (if (includeUnit) "%" else "")
+  def formatPercent(percent: Double, includeUnit: Boolean = true) = Math.round(percent * 100.00 * 100.00) / 100.00 + (if (includeUnit) "%" else "")
   
 }
