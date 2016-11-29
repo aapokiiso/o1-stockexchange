@@ -12,7 +12,7 @@ class StockLoader {
     this.stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
   }
   
-  def quarters: Vector[Quarter] = {
+  def quarters: Iterator[Quarter] = {
     val quartersData = scala.collection.mutable.Map[String, Buffer[QuarterStock]]()
     
     // Combined quarters data from all stocks.
@@ -37,7 +37,7 @@ class StockLoader {
     // Sort quarters chronologically (1/1990, 3/1991, ... 4/2016)
     val sortedQuarters = quarters.sortWith(_ < _)
     
-    sortedQuarters
+    sortedQuarters.toIterator
   }
   
   private def stocksList = {

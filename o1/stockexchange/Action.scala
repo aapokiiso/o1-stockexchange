@@ -22,7 +22,7 @@ object Action {
   
   private class NextQuarterAction extends Action {
     def execute(exchange: StockExchange): String = {
-      "@todo"
+      exchange.nextQuarter()
     }
   }
   
