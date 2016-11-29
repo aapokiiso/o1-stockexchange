@@ -10,7 +10,7 @@ class StockExchange {
   
   val companies: Map[Int, Company] = this.stockLoader.companies
   val quarters: Vector[Quarter] = this.stockLoader.quarters
-  val broker: Broker = new Broker(initialCapital = StockExchange.BrokerInitialCapital)
+  val broker: Broker = new Broker()
   
   private var currentQuarter: Option[Quarter] = Some(this.quarters.head)
   
@@ -37,14 +37,5 @@ class StockExchange {
     val action = Action(command)
     action.execute(this)
   }
-  
-}
-
-object StockExchange {
-  
-  val StocksPath = "resources/stocks"
-  val StocksListFile = "index.txt"
-  
-  val BrokerInitialCapital = 20000.00
   
 }

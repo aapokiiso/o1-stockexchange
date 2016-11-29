@@ -1,8 +1,8 @@
 package o1.stockexchange
 
-class Broker(val name: String = Broker.FallbackName, initialCapital: Double) {
+class Broker(val name: String = Broker.FallbackName) {
   
-  private var currentCapital: Double = initialCapital
+  private var currentCapital: Double = Broker.InitialCapital
   private var quitCommandGiven = false
   
   def capital = this.currentCapital
@@ -19,5 +19,6 @@ class Broker(val name: String = Broker.FallbackName, initialCapital: Double) {
 object Broker {
   
   val FallbackName = "S. Heinäkatu"
+  val InitialCapital = 20000.0 
   
 }

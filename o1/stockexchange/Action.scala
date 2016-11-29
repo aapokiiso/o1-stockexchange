@@ -14,7 +14,7 @@ object Action {
     }
   }
   
-  private class NotFoundAction extends Action {
+  private class UndefinedAction extends Action {
     def execute(exchange: StockExchange): String = {
       "Command not recognized."
     }
@@ -27,7 +27,7 @@ object Action {
     
     verb match {
       case "help" => new HelpAction()
-      case default => new NotFoundAction()
+      case default => new UndefinedAction()
     }
   }
   
