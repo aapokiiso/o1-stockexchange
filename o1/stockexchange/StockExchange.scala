@@ -33,7 +33,7 @@ class StockExchange {
   }
   
   def goodbyeMessage = {
-    ""
+    "@todo"
   }
   
   def playTurn(command: String): String = {
@@ -41,16 +41,11 @@ class StockExchange {
     action.execute(this)
   }
 
-  def nextQuarter(): String = {
+  def nextQuarter(): Unit = {
     if (this.quarters.hasNext) {
       this.currentQuarter = Some(this.quarters.next())
     } else {
       this.currentQuarter = None
-    }
-    
-    this.currentQuarter match {
-      case Some(quarter) => quarter.fullDescription
-      case None => ""
     }
   }
   

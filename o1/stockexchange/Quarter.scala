@@ -11,11 +11,10 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   // @todo
   def fullDescription: String = {
-    "poop"
+    this.toString
   }
   
-  // @todo
-  override def toString = ""
+  override def toString = this.name
   
 }
 

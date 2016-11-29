@@ -23,6 +23,7 @@ object Action {
   private class NextQuarterAction extends Action {
     def execute(exchange: StockExchange): String = {
       exchange.nextQuarter()
+      ""      
     }
   }
   
@@ -53,6 +54,7 @@ object Action {
   private class QuitAction extends Action {
     def execute(exchange: StockExchange): String = {
       exchange.broker.quit()
+      ""
     }
   }
   
