@@ -23,7 +23,7 @@ object Action {
   private class NextQuarterAction extends Action {
     def execute(exchange: StockExchange): String = {
       exchange.nextQuarter()
-      ""      
+      "@todo quarter changed"      
     }
   }
   
@@ -36,9 +36,19 @@ object Action {
     }
   }
   
-  private class ExamineStockAction extends Action {
+  private class ExamineStockAction(modifiers: Vector[String]) extends Action {
+    val ticker = if (modifiers.size == 1) modifiers(0).toUpperCase() else ""
+    
     def execute(exchange: StockExchange): String = {
-      "@todo"
+      exchange.quarter match {
+        case Some(quarter) => {
+          quarter.stockByTicker(ticker) match {
+            case Some(stock) => stock.description
+            case None => ""
+          }
+        }
+        case None => ""
+      }
     }
   }
   
@@ -108,7 +118,7 @@ object Action {
       case "status" => new StatusAction()
       case "nextquarter" => new NextQuarterAction()
       case "liststocks" => new ListStocksAction()
-      case "examine" => new ExamineStockAction()
+      case "examine" => new ExamineStockAction(modifiers)
       case "buy" => new BuyStockAction(modifiers)
       case "sell" => new SellStockAction(modifiers)
       case "quit" => new QuitAction()

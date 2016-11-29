@@ -102,7 +102,7 @@ object StockExchangeGUI extends SimpleSwingApplication {
         this.turnOutput.text = info + "\n\n" + this.game.goodbyeMessage
       }
       this.quarterInfo.text = this.game.quarter match {
-        case Some(quarter) => quarter.fullDescription
+        case Some(quarter) => quarter.description
         case None => ""
       }
     }
