@@ -14,6 +14,10 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
     this.toString
   }
   
+  def stocksDescription: String = {
+    this.stocks.map((stock) => s"${stock.company.name} (${stock.company.ticker}): ${stock.price}").mkString("\n")
+  }
+  
   override def toString = this.name
   
 }

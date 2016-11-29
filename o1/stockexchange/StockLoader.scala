@@ -7,9 +7,17 @@ import scala.collection.immutable.Map
 class StockLoader {
   
   private var stocksListCache: Option[Map[Int, Map[String, String]]] = None
+  private var companiesCache: Option[Map[Int, Company]] = None
   
   def companies: Map[Int, Company] = {
-    this.stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
+    this.companiesCache match {
+      case Some(companies) => companies
+      case None => {
+        val companies = this.stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
+        this.companiesCache = Some(companies)
+        companies
+      }
+    }
   }
   
   def quarters: Iterator[Quarter] = {

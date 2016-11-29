@@ -29,7 +29,10 @@ object Action {
   
   private class ListStocksAction extends Action {
     def execute(exchange: StockExchange): String = {
-      "@todo"
+      exchange.quarter match {
+        case Some(quarter) => quarter.stocksDescription
+        case None => ""
+      }
     }
   }
   
@@ -40,7 +43,7 @@ object Action {
   }
   
   private abstract class ChangeStockAction(modifiers: Vector[String]) extends Action {
-    val ticker = if (modifiers.size == 2) modifiers(0) else ""
+    val ticker = if (modifiers.size == 2) modifiers(0).toUpperCase() else ""
     val amount = if (modifiers.size == 2) modifiers(1).toInt else 0
     
     def execute(exchange: StockExchange): String = {      

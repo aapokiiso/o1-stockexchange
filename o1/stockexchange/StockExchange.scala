@@ -13,7 +13,7 @@ class StockExchange {
   val broker: Broker = new Broker()
   
   private var currentQuarter: Option[Quarter] = None
-  this.currentQuarter = Some(this.quarters.next())
+  this.nextQuarter()
   
   /**
    * Game ends when going over last quarter.
