@@ -14,6 +14,48 @@ object Action {
     }
   }
   
+  private class StatusAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class NextQuarterAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class ListStocksAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class ExamineStockAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class BuyStockAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class SellStockAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      "@todo"
+    }
+  }
+  
+  private class QuitAction extends Action {
+    def execute(exchange: StockExchange): String = {
+      exchange.broker.quit()
+    }
+  }
+  
   private class UndefinedAction extends Action {
     def execute(exchange: StockExchange): String = {
       "Command not recognized."
@@ -27,6 +69,13 @@ object Action {
     
     verb match {
       case "help" => new HelpAction()
+      case "status" => new StatusAction()
+      case "nextquarter" => new NextQuarterAction()
+      case "liststocks" => new ListStocksAction()
+      case "examine" => new ExamineStockAction()
+      case "buy" => new BuyStockAction()
+      case "sell" => new SellStockAction()
+      case "quit" => new QuitAction()
       case default => new UndefinedAction()
     }
   }
