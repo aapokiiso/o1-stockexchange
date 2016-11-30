@@ -13,7 +13,11 @@ class StockLoader {
     this.companiesCache match {
       case Some(companies) => companies
       case None => {
-        val companies = this.stocksList.map((s) => s._1 -> new Company(s._1, s._2("ticker"), s._2("name")))
+        val companies = this.stocksList.map((s) => {
+          val summary = if (s._2("summary").size > 0) Some(s._2("summary")) else None
+          
+          s._1 -> new Company(s._1, s._2("ticker"), s._2("name"), summary)
+        })
         this.companiesCache = Some(companies)
         companies
       }
@@ -83,7 +87,7 @@ class StockLoader {
         val companyData = Map(
             "ticker" -> ticker,
             "name" -> this.stockListValue(line, "name"),
-            "description" -> this.stockListValue(line, "description")
+            "summary" -> this.stockListValue(line, "summary")
             )
         stockId -> companyData
       })
@@ -192,7 +196,7 @@ object StockLoader {
   val StocksDir = "resources" + DirSeparator + "stocks"
   val StocksListFile = StocksDir + DirSeparator + "index" + FileExt
   
-  val StockListColumns = Vector("id", "ticker", "name", "description")
+  val StockListColumns = Vector("id", "ticker", "name", "summary")
   val StockListColumnIndices = (StockListColumns.zip(StockListColumns.indices)).toMap
   
   val StockColumns = Vector("date", "open", "high", "low", "close", "volume")

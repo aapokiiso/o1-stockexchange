@@ -33,7 +33,19 @@ class StockExchange {
   }
   
   def goodbyeMessage = {
-    "@todo"
+    var message = "You've reached the present day! Here's your final status:\n\n" +
+    this.broker.status + "\n\n"
+    
+    if (this.broker.isProfitable) {
+      message += "Looks like you managed to make some money on the exchange. Nice work!\n"
+      message += "Here's a link that might interest you: https://lmgtfy.com/?q=banks+in+panama"
+    } else {
+      message += "Unfortunately it looks like your money would've been better kept under a mattress.\n"
+      message += "Statistically it's, like, really impropable to lose money investing over this long of a timespan.\n"
+      message += "Don't quote me on that, though (you can't afford it)"
+    }
+    
+    message
   }
   
   def playTurn(command: String): String = {
@@ -48,7 +60,6 @@ class StockExchange {
       this.broker.pricesheet = nextQuarter.pricesheet
     } else {
       this.currentQuarter = None
-      this.broker.pricesheet = Map[Company, Double]()
     }
   }
   

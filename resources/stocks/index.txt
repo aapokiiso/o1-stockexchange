@@ -12,7 +12,7 @@
 2031;SSAB;SSAB B;
 1052;STE;Stora Enso A;
 1036;STE;Stora Enso R;
-1964;TLV;Talvivaara;
+1964;TLV;Talvivaara;Tätä kannattaa ostaa!
 1135;UPM;UPM-Kymmene;
 1109;ASPO;Aspo (LP);
 1035;ACG;Aspocomp Group;

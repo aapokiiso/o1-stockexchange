@@ -11,8 +11,14 @@ class Broker(var name: String = Broker.FallbackName) {
   
   def capital = this.currentCapital
   
+  def portfolioWorth = this.holdingQtys.keys.map(this.holdingWorth).sum
+  
+  def totalWorth = this.capital + this.portfolioWorth
+  
+  def isProfitable = this.totalWorth >= Broker.InitialCapital
+  
   def portfolioGrowth = {
-    val percents = this.holdingQtys.keys.map(holdingGrowth)
+    val percents = this.holdingQtys.keys.map(this.holdingGrowth)
     
     percents.sum / percents.size
   }
@@ -49,17 +55,17 @@ class Broker(var name: String = Broker.FallbackName) {
     true
   }
   
-  def holdingWorth(company: Company) = {
+  def holdingWorth(company: Company): Double = {
     val holdQty = this.holdingQtys(company)
-    val stockPrice = this.pricesheet(company)
+    val stockPrice = this.currentPrice(company)
 
-    stockPrice * holdQty
+    stockPrice * holdQty.toDouble
   }
   
   def holdingGrowth(company: Company) = {
     val holdQty = this.holdingQtys(company)
     val investedSum = this.investedSums(company)
-    val stockPrice = this.pricesheet(company)
+    val stockPrice = this.currentPrice(company)
     val totalWorth = stockPrice * holdQty
     
     (totalWorth - investedSum) / investedSum
@@ -72,7 +78,14 @@ class Broker(var name: String = Broker.FallbackName) {
     }
   }
   
-  def currentPrice(company: Company, qty: Double) = this.pricesheet(company) * qty
+  def currentPrice(company: Company, qty: Double = 1.0) = {
+    val price = this.pricesheet.get(company) match {
+      case Some(price) => price
+      case None => 0
+    }
+    
+    price * qty
+  }
   
   def hasQuit = this.quitCommandGiven
   
@@ -82,12 +95,15 @@ class Broker(var name: String = Broker.FallbackName) {
   
   def status = {
     val formattedCapital = StockExchange.formatPrice(this.capital)
+    val formattedPortfolioWorth = StockExchange.formatPrice(this.portfolioWorth)
+    val formattedWorth = StockExchange.formatPrice(this.totalWorth)
     val formattedGrowth = StockExchange.formatPercent(this.portfolioGrowth)
     
-    s"Name: ${this.name}\n" +
-    s"Capital: ${formattedCapital}\n" +
-    s"Total growth: ${formattedGrowth}\n\n" +
-    "Portfolio: \n" +
+    s"Name: ${this.name}\n\n" +
+    s"Capital: ${formattedCapital}\n" + 
+    s"Portfolio: ${formattedPortfolioWorth}\n" +
+    s"Total: ${formattedWorth}\n\n" +
+    s"Portfolio (total growth ${formattedGrowth}): \n" +
     this.portfolioDescription
   }
   
