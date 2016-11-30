@@ -23,7 +23,6 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def stockByTicker(ticker: String): Option[QuarterStock] = this.stocks.find( _.company.ticker == ticker )
   
-  // @todo
   def description: String = {
     s"Quarter ${this.name}\n" + 
     this.stocksDescription

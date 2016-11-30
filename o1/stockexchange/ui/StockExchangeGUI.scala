@@ -6,12 +6,6 @@ import javax.swing.UIManager
 import o1.stockexchange.StockExchange
 
 
-////////////////// NOTE TO STUDENTS //////////////////////////
-// For the purposes of our course, it's not necessary    
-// that you understand or even look at the code in this file.
-//////////////////////////////////////////////////////////////
-
-
 object StockExchangeGUI extends SimpleSwingApplication {
 
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName) 

@@ -14,9 +14,12 @@ class StockLoader {
       case Some(companies) => companies
       case None => {
         val companies = this.stocksList.map((s) => {
-          val summary = if (s._2("summary").size > 0) Some(s._2("summary")) else None
+          val stockId = s._1
+          val stockData = s._2
           
-          s._1 -> new Company(s._1, s._2("ticker"), s._2("name"), summary)
+          val summary = if (stockData("summary").size > 0) Some(stockData("summary")) else None
+          
+          stockId -> new Company(stockId, stockData("ticker"), stockData("name"), summary)
         })
         this.companiesCache = Some(companies)
         companies
@@ -44,7 +47,12 @@ class StockLoader {
       }
     }
     
-    val quarters = quartersData.toVector.map((q) => new Quarter(q._1, q._2.toVector))
+    val quarters = quartersData.toVector.map((q) => {
+      val quarterName = q._1
+      val quarterStocks = q._2.toVector
+      
+      new Quarter(quarterName, quarterStocks)
+    })
     
     // Sort quarters chronologically (1/1990, 3/1991, ... 4/2016)
     val sortedQuarters = quarters.sortWith(_ < _)
