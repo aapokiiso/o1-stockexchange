@@ -1,0 +1,28 @@
+General notes:
+- I decided to leave the area map file out, because it doesn't 
+  make any sense in the context of this game, as all "areas"
+  are just quarters, and you can only go forward in time.
+- The data has been collected with a JS script from the Kauppalehti website
+  (http://www.kauppalehti.fi/5/i/porssi/porssikurssit/lista.jsp). Data for 
+  a single stock can be downloaded as CSV from 
+  http://www.kauppalehti.fi/5/i/amstock/historydata.jsp?period=20&turnover=false&klid=[stock_id],
+  where [stock_id] is an internal Kauppalehti stock ID. See resources/scrape-stocks.js for details.
+- I added support for having a summary for a company, but didn't have time
+  to write the content (except for TLV as a proof of concept).
+- I also would've liked to add a description for quarters, so the quarter's real-life
+  events could've been summarized, but didn't have time :/
+
+How to win the game:
+- The game is really easy to win, you just have to 
+  buy stocks that stay profitable from 4/1996 through 4/2016.
+- You can, for example, invest all your money in SAMPO (Sampo)
+  in 4/1996, fast-forward through the quarters with 'nextquarter'
+  and get a >600% return for your investment in 4/2016.
+- Of course it's much more interesting to diversify your portfolio
+  by buying different kinds of stocks at different times.
+
+How to lose the game:
+- You lose if your combined worth (capital + portfolio) is less than
+  your initial capital (1000 000 mk).
+- You can, for example, fast-forward to 2/2009, go all-in on TLV (Talvivaara),
+  and watch your money fade into nothing in a couple of years.
