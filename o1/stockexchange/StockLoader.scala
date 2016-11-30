@@ -74,14 +74,11 @@ class StockLoader {
   /**
    * Returns map of stock IDs and company names.
    * 
-   * Map format: stock ID -> Company data (ticker, name)
+   * Map format: stock ID -> Company data (ticker, name, summary)
    * 
    * Stock ID is nothing else but a numeric ID
    * used by Kauppalehti to identify stocks.
-   * See "scrape-stocks.js" in this project resources for details.
-   * 
-   * @param stocksFile - path to file to load stock data from,
-   * 										 relative to the stock loader's base path.
+   * See "walkthrough.txt" in this project's root for details.
    */
   private def stocksListFromFile: Map[Int, Map[String, String]] = {
     val stocksSource = Source.fromFile(StockLoader.StocksListFile)
@@ -114,8 +111,7 @@ class StockLoader {
    * Map format: Quarter name -> Average price for the quarter
    * Quarter name is of format "quarter/year", example "3/2006"
    * 
-   * @param stockFile - path to file to load stock data from,
-   * 										relative to the stock loader's base path.
+   * @param stockId - Kauppalehti stock / company ID to load quarters for.
    */
   private def quartersByStockIdFromFile(stockId: Int): Map[String, Double] = {
     val filePath = StockLoader.StocksDir + StockLoader.DirSeparator + stockId + StockLoader.FileExt

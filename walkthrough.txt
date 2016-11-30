@@ -11,13 +11,15 @@ General notes:
   to write the content (except for TLV as a proof of concept).
 - I also would've liked to add a description for quarters, so the quarter's real-life
   events could've been summarized, but didn't have time :/
+- The game does not account for inflation.
+- The GUI doesn't work too well with the portfolio table or the overflowing list of stocks.
 
 How to win the game:
 - The game is really easy to win, you just have to 
   buy stocks that stay profitable from 4/1996 through 4/2016.
 - You can, for example, invest all your money in SAMPO (Sampo)
   in 4/1996, fast-forward through the quarters with 'nextquarter'
-  and get a >600% return for your investment in 4/2016.
+  and get a ~1400% return for your investment in 4/2016.
 - Of course it's much more interesting to diversify your portfolio
   by buying different kinds of stocks at different times.
 

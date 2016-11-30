@@ -14,6 +14,7 @@ object Action {
       "In this case the word 'profitable' means that capital + portfolio worth > 0.\n\n" +
       "Commands:\n\n" + 
       "help                                     Displays this help message.\n\n" +
+      "quit                                     Quit the game (works only in the GUI).\n\n" +
       "status                                   Displays your broker info and portfolio.\n\n" +
       "rename <plaintext name>                  Renames your broker character.\n\n" +
       "liststocks                               Shows available stocks on the exchange.\n\n" +

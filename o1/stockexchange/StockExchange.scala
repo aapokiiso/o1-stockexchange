@@ -16,9 +16,9 @@ class StockExchange {
   this.nextQuarter()
   
   /**
-   * Game ends when going over last quarter.
+   * Game ends when player quits or goes over the last quarter.
    */
-  def isOver = !currentQuarter.isDefined
+  def isOver = this.broker.hasQuit || !currentQuarter.isDefined
   
   def quarter = this.currentQuarter
   
@@ -33,7 +33,7 @@ class StockExchange {
   }
   
   def goodbyeMessage = {
-    var message = "You've reached the present day! Here's your final status:\n\n" +
+    var message = "You've reached the end of the game! Here's your final status:\n\n" +
     this.broker.status + "\n\n"
     
     if (this.broker.isProfitable) {
@@ -59,6 +59,10 @@ class StockExchange {
       this.currentQuarter = Some(nextQuarter)
       this.broker.pricesheet = nextQuarter.pricesheet
     } else {
+      // Game is over.
+      // Don't reset the broker pricesheet,
+      // as we need the last quarter's pricesheet
+      // to check profitability when ending the game.
       this.currentQuarter = None
     }
   }

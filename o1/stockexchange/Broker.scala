@@ -108,14 +108,14 @@ class Broker(var name: String = Broker.FallbackName) {
   }
   
   def portfolioDescription: String = {
-    val headingRow = Vector(Vector("Company name", "Hold quantity", "Invested sum (mk)", "Total worth (mk)", "Growth (%)"))
+    val headingRow = Vector(Vector("Company", "Ticker", "Hold quantity", "Invested sum (mk)", "Total worth (mk)", "Growth (%)"))
     val itemRows = this.holdingQtys.keys.map((company) => {
       val holdQty = this.holdingQtys(company)
       val investedSum = StockExchange.formatPrice(this.investedSums(company), false)
       val totalWorth = StockExchange.formatPrice(this.holdingWorth(company), false)
       val growthPercent = StockExchange.formatPercent(this.holdingGrowth(company), false)
       
-      Vector(company.name, holdQty, investedSum, totalWorth, growthPercent)
+      Vector(company.name, company.ticker, holdQty, investedSum, totalWorth, growthPercent)
     })
     val rows = Vector.concat(headingRow, itemRows)
     

@@ -11,11 +11,13 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def stocksDiff(another: Quarter) = this.stocks.filter((stock) => {
     var existsInAnother = false
+    
     for (anotherStock <- another.stocks) {
       if (!existsInAnother && anotherStock.company == stock.company) {
         existsInAnother = true
       }
     }
+    
     !existsInAnother
   })
   
@@ -23,10 +25,7 @@ class Quarter(val name: String, val stocks: Vector[QuarterStock]) {
   
   def stockByTicker(ticker: String): Option[QuarterStock] = this.stocks.find( _.company.ticker == ticker )
   
-  def description: String = {
-    s"Quarter ${this.name}\n" + 
-    this.stocksDescription
-  }
+  def description: String = s"Year ${this.year}, quarter ${this.quarter}\n"
   
   def stocksDescription: String = {
     this.stocks.map( _.rowDescription ).mkString("\n")
