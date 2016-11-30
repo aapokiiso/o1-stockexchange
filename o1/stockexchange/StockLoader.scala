@@ -55,7 +55,7 @@ class StockLoader {
     })
     
     // Sort quarters chronologically (1/1990, 3/1991, ... 4/2016)
-    val sortedQuarters = quarters.sortWith(_ < _)
+    val sortedQuarters = quarters.sortWith( _ < _ )
     
     sortedQuarters.toIterator
   }
